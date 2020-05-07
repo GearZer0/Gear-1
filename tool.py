@@ -63,7 +63,7 @@ if __name__ == "__main__":
         for ip in all_ips:
             ip_file.write(ip + "\n")
     print("Running command ... please wait for output to populate shortly ...")
-    run_bot = subprocess.Popen('py Checker.py -ip tmp.txt'.split(' ')).wait()
+    run_bot = subprocess.Popen('py HackiChecker.py -ip tmp.txt'.split(' ')).wait()
     while True:
         sleep(1)
         files = os.listdir("Results")

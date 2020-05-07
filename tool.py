@@ -12,9 +12,9 @@ from email import encoders
 from time import sleep
 
 def sendEmail(filename):
-    email_username = '' # set sender email
-    email_pwd = '' # set sender password
-    receiver_url = '' #set receiver email
+    email_username = input(": ") # set sender email
+    email_pwd = input(": ") # set sender password
+    receiver_url = input(": ") #set receiver email
     
     SourcePathName  = os.getcwd() + "/" + filename 
 
@@ -63,13 +63,11 @@ if __name__ == "__main__":
         for ip in all_ips:
             ip_file.write(ip + "\n")
     print("Running command ... please wait for output to populate shortly ...")
-    run_bot = subprocess.Popen('python3 Checker.py -ip tmp.txt'.split(' '), stdout=subprocess.PIPE)
+    run_bot = subprocess.Popen('py Checker.py -ip tmp.txt'.split(' ')).wait()
     while True:
-        out = run_bot.stdout.readline()
-        if len(out) == 0:
+        sleep(1)
+        files = os.listdir("Results")
+        if len(files) > 0:
+            #files = sorted(filter(os.path.isfile, os.listdir('Results')), key=os.path.getmtime)
+            sendEmail("Results/" + files[0])
             break
-        print(out)
-    print("Zipping Result file")
-    subprocess.Popen("zip -r Results . -i Results.zip",shell=True)
-    sleep(5)
-    sendEmail("Results.zip")

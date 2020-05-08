@@ -12,9 +12,9 @@ from email import encoders
 from time import sleep
 
 def sendEmail(filename):
-    email_username = input(": ") # set sender email
-    email_pwd = input(": ") # set sender password
-    receiver_url = input(": ") #set receiver email
+    email_username = input("Enter outlook email: ") # set sender email
+    email_pwd = input("Enter outlook password: ") # set sender password
+    receiver_url = input("Enter receipient email: ") #set receiver email
     
     SourcePathName  = os.getcwd() + "/" + filename 
 
@@ -63,7 +63,7 @@ if __name__ == "__main__":
         for ip in all_ips:
             ip_file.write(ip + "\n")
     print("Running command ... please wait for output to populate shortly ...")
-    run_bot = subprocess.Popen('py HackiChecker.py -ip tmp.txt'.split(' ')).wait()
+    run_bot = subprocess.Popen('py Checker.py -ip tmp.txt'.split(' ')).wait()
     while True:
         sleep(1)
         files = os.listdir("Results")

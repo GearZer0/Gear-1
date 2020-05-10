@@ -47,8 +47,8 @@ def sendEmail(filename):
 if __name__ == "__main__":
     print("Downloading attachment")
     downloadAttach()
-    today = datetime.now().strftime("%d %B %Y")
-    file_name = "Daily Summary Report {}".format(today)
+    today = datetime.now().strftime("%d%m%Y")
+    file_name = "Daily Report {}.xlsx".format(today)
     while True:
         files_in = os.listdir()
         if file_name in files_in:

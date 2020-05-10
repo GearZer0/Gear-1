@@ -10,41 +10,49 @@ from email.mime.base import MIMEBase
 from email.mime.text import MIMEText
 from email import encoders
 from time import sleep
+import win32com.client
+
+def downloadAttach():
+    Outlook = win32com.client.Dispatch("Outlook.Application")
+    olNs = Outlook.GetNamespace("MAPI")
+    Inbox = olNs.GetDefaultFolder(6)
+    today = datetime.now().strftime("%d %B %Y")
+    file_name = "Daily Summary Report {}".format(today)
+    Filter = ("@SQL=" + chr(34) + "urn:schemas:httpmail:subject" +
+              chr(34) + " Like '" + file_name +"' AND " +
+              chr(34) + "urn:schemas:httpmail:hasattachment" +
+              chr(34) + "=1")
+
+    Items = Inbox.Items.Restrict(Filter)
+    for Item in Items:
+        for attachment in Item.Attachments:
+            print(attachment.FileName)
+            attachment.SaveAsFile(attachment.FileName)
 
 def sendEmail(filename):
-    email_username = input("Enter outlook email: ") # set sender email
-    email_pwd = input("Enter outlook password: ") # set sender password
-    receiver_url = input("Enter receipient email: ") #set receiver email
-    
-    SourcePathName  = os.getcwd() + "/" + filename 
+    outlook = win32com.client.Dispatch('outlook.application')
+    mail = outlook.CreateItem(0)
+    mail.To = 'To address'
+    mail.Subject = 'Message subject'
+    mail.Body = 'Message body'
+    mail.HTMLBody = '<h2>HTML Message body</h2>' #this field is optional
 
-    msg = MIMEMultipart()
-    msg['From'] = email_username
-    msg['To'] = receiver_url
-    msg['Subject'] = 'Report Update'
-    body = 'Report File'
-    msg.attach(MIMEText(body, 'plain'))
+    # To attach a file to the email (optional):
+    attachment  = filename
+    mail.Attachments.Add(attachment)
 
-    ## ATTACHMENT PART OF THE CODE IS HERE
-    attachment = open(SourcePathName, 'rb')
-    part = MIMEBase('application', "octet-stream")
-    part.set_payload((attachment).read())
-    encoders.encode_base64(part)
-    part.add_header('Content-Disposition', "attachment; filename= %s" % filename)
-    msg.attach(part)
-
-    server = smtplib.SMTP('imap-mail.outlook.com', 587)
-    server.ehlo()
-    server.starttls()
-    server.ehlo()
-    server.login(email_username, email_pwd)
-    server.send_message(msg)
-    server.quit()
+    mail.Send()
     print("Email sent ...")
 
 if __name__ == "__main__":
-    today = datetime.now().strftime("%d%m%Y")
-    file_name = "Daily Report {}.xlsx".format(today)
+    print("Downloading attachment")
+    downloadAttach()
+    today = datetime.now().strftime("%d %B %Y")
+    file_name = "Daily Summary Report {}".format(today)
+    while True:
+        files_in = os.listdir()
+        if file_name in files_in:
+            break
     wb = xlrd.open_workbook(file_name)
     sheet = wb.sheet_by_index(0)
     all_ips = []
@@ -57,17 +65,15 @@ if __name__ == "__main__":
     all_ips = list(set(all_ips))
     if os.path.exists("tmp.txt"):
         os.remove("tmp.txt")
-    if os.path.exists("Results.zip"):
-        os.remove("Results.zip")
     with open('tmp.txt', 'a+') as ip_file:
         for ip in all_ips:
             ip_file.write(ip + "\n")
     print("Running command ... please wait for output to populate shortly ...")
-    run_bot = subprocess.Popen('py Checker.py -ip tmp.txt'.split(' ')).wait()
+    run_bot = subprocess.Popen('python Checker.py -ip tmp.txt'.split(' ')).wait()
     while True:
         sleep(1)
         files = os.listdir("Results")
         if len(files) > 0:
             #files = sorted(filter(os.path.isfile, os.listdir('Results')), key=os.path.getmtime)
-            sendEmail("Results/" + files[0])
+            sendEmail(os.getcwd() + "/Results/" + files[0])
             break

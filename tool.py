@@ -35,20 +35,20 @@ def sendEmail(filename):
     mail.To = 'To address'
     mail.Subject = 'Message subject'
     mail.Body = 'Message body'
-    mail.HTMLBody = '<h2>HTML Message body</h2>' #this field is optional
+    # mail.HTMLBody = '<h2>HTML Message body</h2>' #this field is optional
 
     # To attach a file to the email (optional):
     attachment  = filename
     mail.Attachments.Add(attachment)
 
     mail.Send()
-    print("Email sent ...")
+    print("Email sent!!!")
 
 if __name__ == "__main__":
     print("Downloading attachment")
     downloadAttach()
     today = datetime.now().strftime("%Y%m%d")
-    file_name = "SP Daily Report {}.xlsx".format(today)
+    file_name = "Daily Report {}.xlsx".format(today)
     while True:
         files_in = os.listdir()
         if file_name in files_in:

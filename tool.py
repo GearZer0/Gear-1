@@ -28,7 +28,8 @@ def downloadAttach():
     for Item in Items:
         for attachment in Item.Attachments:
             print(attachment.FileName)
-            attachment.SaveAsFile(attachment.FileName)
+            attachment.SaveAsFile(os.getcwd() + "/" + attachment.FileName)
+            return attachment.FileName
 
 def sendEmail(filename):
     outlook = win32com.client.Dispatch('outlook.application')
@@ -48,20 +49,15 @@ def sendEmail(filename):
 
 if __name__ == "__main__":
     print("Downloading attachment")
-    downloadAttach()
-    today = datetime.now().strftime("%Y%m%d")
-    file_name = "SP Daily Report {}.xlsx".format(today)
-    print(file_name)
-    while True:
-        files_in = os.listdir()
-        if file_name in files_in:
-            break
+    
+    #today = datetime.now().strftime("%Y%m%d")
+    file_name = downloadAttach()
     wb = xlrd.open_workbook(file_name)
     sheet = wb.sheet_by_index(0)
     all_ips = []
     for i in range(sheet.nrows):
         cell_data = sheet.cell_value(i,4)
-        IP = re.findall('[\d]+.[\d]+.[\d]+.[\d]', cell_data)
+        IP = re.findall('[\d]+.[\d]+.[\d]+.[\d]+', cell_data)
         if len(IP):
             IP = IP[0]
             all_ips.append(IP)

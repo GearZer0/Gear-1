@@ -13,11 +13,11 @@ from time import sleep
 import win32com.client
 
 def downloadAttach():
-    Outlook = win32com.client.Dispatch("Outlook.Application")
-    olNs = Outlook.GetNamespace("MAPI")
-    Inbox = olNs.GetDefaultFolder(6)
+    Outlook = win32com.client.Dispatch("Outlook.Application").GetNamespace("MAPI")
+    # olNs = Outlook.GetNamespace("MAPI")
+    # Inbox = olNs.GetDefaultFolder(6)
     today = datetime.now().strftime("%d %B %Y")
-    file_name = "Daily Summary Report {}".format(today)
+    file_name = "%Daily Summary Report {}".format(today)
     Filter = ("@SQL=" + chr(34) + "urn:schemas:httpmail:subject" +
               chr(34) + " Like '" + file_name +"' AND " +
               chr(34) + "urn:schemas:httpmail:hasattachment" +
@@ -47,8 +47,8 @@ def sendEmail(filename):
 if __name__ == "__main__":
     print("Downloading attachment")
     downloadAttach()
-    today = datetime.now().strftime("%d%m%Y")
-    file_name = "Daily Report {}.xlsx".format(today)
+    today = datetime.now().strftime("%Y%m%d")
+    file_name = "SP Daily Report {}.xlsx".format(today)
     while True:
         files_in = os.listdir()
         if file_name in files_in:

@@ -16,6 +16,7 @@ def downloadAttach():
     Outlook = win32com.client.Dispatch("Outlook.Application").GetNamespace("MAPI")
     # olNs = Outlook.GetNamespace("MAPI")
     # Inbox = olNs.GetDefaultFolder(6)
+    Inbox = Outlook.Folders("Mailbox Name").Folders.Item("Inbox")
     today = datetime.now().strftime("%d %B %Y")
     file_name = "%Daily Summary Report {}".format(today)
     Filter = ("@SQL=" + chr(34) + "urn:schemas:httpmail:subject" +
@@ -40,7 +41,8 @@ def sendEmail(filename):
     # To attach a file to the email (optional):
     attachment  = filename
     mail.Attachments.Add(attachment)
-
+    
+    mail.SentOnBehalfOfName = 'Email Address'
     mail.Send()
     print("Email sent!!!")
 

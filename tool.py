@@ -14,9 +14,9 @@ import win32com.client
 
 def downloadAttach():
     Outlook = win32com.client.Dispatch("Outlook.Application").GetNamespace("MAPI")
-    # olNs = Outlook.GetNamespace("MAPI")
-    # Inbox = olNs.GetDefaultFolder(6)
-    Inbox = Outlook.Folders("Mailbox Name").Folders.Item("Inbox")
+#    olNs = Outlook.GetNamespace("MAPI")
+#    Inbox = olNs.GetDefaultFolder(6)
+    Inbox = Outlook.Folders(" ").Folders.Item("Inbox")
     today = datetime.now().strftime("%d %B %Y")
     file_name = "%Daily Summary Report {}".format(today)
     Filter = ("@SQL=" + chr(34) + "urn:schemas:httpmail:subject" +
@@ -33,24 +33,25 @@ def downloadAttach():
 def sendEmail(filename):
     outlook = win32com.client.Dispatch('outlook.application')
     mail = outlook.CreateItem(0)
-    mail.To = 'To address'
-    mail.Subject = 'Message subject'
-    mail.Body = 'Message body'
-    # mail.HTMLBody = '<h2>HTML Message body</h2>' #this field is optional
+    mail.To = ' '
+    mail.Subject = ' '
+    mail.Body = ' '
+#   mail.HTMLBody = '<h2>HTML Message body</h2>' #this field is optional
 
     # To attach a file to the email (optional):
     attachment  = filename
     mail.Attachments.Add(attachment)
-    
-    mail.SentOnBehalfOfName = 'Email Address'
+
+    mail.SentOnBehalfOfName = ' '
     mail.Send()
-    print("Email sent!!!")
+    print("Email sent ...")
 
 if __name__ == "__main__":
     print("Downloading attachment")
     downloadAttach()
     today = datetime.now().strftime("%Y%m%d")
-    file_name = "Daily Report {}.xlsx".format(today)
+    file_name = "SP Daily Report {}.xlsx".format(today)
+    print(file_name)
     while True:
         files_in = os.listdir()
         if file_name in files_in:
@@ -71,7 +72,7 @@ if __name__ == "__main__":
         for ip in all_ips:
             ip_file.write(ip + "\n")
     print("Running command ... please wait for output to populate shortly ...")
-    run_bot = subprocess.Popen('python Checker.py -ip tmp.txt'.split(' ')).wait()
+    run_bot = subprocess.Popen('python HakiChecker.py -ip tmp.txt'.split(' ')).wait()
     while True:
         sleep(1)
         files = os.listdir("Results")

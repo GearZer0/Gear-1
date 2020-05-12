@@ -18,7 +18,7 @@ def downloadAttach():
 #    Inbox = olNs.GetDefaultFolder(6)
     Inbox = Outlook.Folders(" ").Folders.Item("Inbox")
     today = datetime.now().strftime("%d %B %Y")
-    file_name = "%Daily Summary Report {}".format(today)
+    file_name = " {}".format(today)
     Filter = ("@SQL=" + chr(34) + "urn:schemas:httpmail:subject" +
               chr(34) + " Like '" + file_name +"' AND " +
               chr(34) + "urn:schemas:httpmail:hasattachment" +

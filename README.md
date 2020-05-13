@@ -7,3 +7,6 @@ This tool download the attachment from email, extract the IP address in the atta
 3) Delete duplicate IP addresses in the excel
 4) Give the excel a IP reputation check with HakiChecker.py
 5) Get the result and send email to CDOCOps
+
+#Configuration
+- Inbox = Outlook.Folders**(" ")**.Folders.Item("Inbox") 

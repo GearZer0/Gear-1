@@ -18,3 +18,16 @@ Fill in the following in Gear-1 :
 5. mail.Body = ' '                                        *Input body of the email*
 6. mail.SentOnBehalfOfName = ' '                          *Input email address of the sender*
 </pre>
+# Insruction to run this tool
+Place tool.py together in the same folder as Hakichecker
+
+# Command to run this tool
+python tool.py
+
+# Create the Batch File
+Create a notepad file and input the following into the notepad :
+```
+cd "Path where your HakiChecker is"
+python tool.py
+pause
+```

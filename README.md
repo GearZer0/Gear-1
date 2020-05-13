@@ -25,9 +25,10 @@ Place tool.py together in the same folder as Hakichecker
 python tool.py
 
 # Create the Batch File
-Create a notepad file and input the following into the notepad :
+Create a Notepad file and input the following into the notepad :
 ```
 cd "Path where your HakiChecker is"
 python tool.py
 pause
 ```
+Save the Notepad with .bat

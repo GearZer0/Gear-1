@@ -8,7 +8,7 @@ This tool download the attachment from email, extract the IP address in the atta
 4. Give the excel a IP reputation check with HakiChecker.py
 5. Get the result and send email to CDOCOps
 
-#Configuration
+# Configuration
 1. Inbox = Outlook.Folders(" ").Folders.Item("Inbox") *Input your mailbox name*
 2. file_name = " {}".format(today) *Input the subject name of the email
 3. mail.To = ' '  *Input email address of the recipient*

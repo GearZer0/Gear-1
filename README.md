@@ -9,7 +9,7 @@ This tool download the attachment from email, extract the IP address in the atta
 5. Get the result and send email to CDOCOps
 
 # Configuration
-1. Inbox = Outlook.Folders(" ").Folders.Item("Inbox")     *Input your mailbox name*
+1. Inbox = Outlook.Folders(" ").Folders.Item("Inbox")            *Input your mailbox name*
 2. file_name = " {}".format(today)    *Input the subject name of the email*
 3. mail.To = ' '      *Input email address of the recipient*
 4. mail.Subject = ' '     *Input email subject name*

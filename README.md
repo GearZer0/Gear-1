@@ -1,4 +1,4 @@
-# Gear-1
+# Gear-I
 This tool download the attachment from email, extract the IP address in the attachment and run it with HakiChekcer.py for reputation check and email the result to a recipient.
 
 # Breakdown

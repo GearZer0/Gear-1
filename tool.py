@@ -19,10 +19,10 @@ def downloadAttach():
     Inbox = Outlook.Folders(" ").Folders.Item("Inbox")
     today = datetime.now().strftime("%d %B %Y")
     _today = str(datetime.now().day) + " " + datetime.now().strftime("%B %Y")
-    file_name = "% {}".format(today)
-    _file_name = "% {}".format(_today)
+    file_name = "%Daily Summary Report {}".format(today)
+    _file_name = "%Daily Summary Report {}".format(_today)
     Filter = ("@SQL=" + chr(34) + "urn:schemas:httpmail:subject" +
-              chr(34) + " Like '" + file_name +"' OR '" + _file_name + "' AND " +
+              chr(34) + " Like '" + file_name + "' AND " +
               chr(34) + "urn:schemas:httpmail:hasattachment" +
               chr(34) + "=1")
 
@@ -31,7 +31,19 @@ def downloadAttach():
         for attachment in Item.Attachments:
             print(attachment.FileName)
             attachment.SaveAsFile(os.getcwd() + "/Attachment/" + attachment.FileName)
-            return "Attachment" + "/" attachment.FileName
+            return "Attachment" + "/" + attachment.FileName
+    # repeat again for other date format ...
+    Filter = ("@SQL=" + chr(34) + "urn:schemas:httpmail:subject" +
+              chr(34) + " Like '" + _file_name + "' AND " +
+              chr(34) + "urn:schemas:httpmail:hasattachment" +
+              chr(34) + "=1")
+
+    Items = Inbox.Items.Restrict(Filter)
+    for Item in Items:
+        for attachment in Item.Attachments:
+            print(attachment.FileName)
+            attachment.SaveAsFile(os.getcwd() + "/Attachment/" + attachment.FileName)
+            return "Attachment" + "/" + attachment.FileName
 
 def sendEmail(filename):
     outlook = win32com.client.Dispatch('outlook.application')

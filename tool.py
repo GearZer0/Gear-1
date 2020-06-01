@@ -18,9 +18,11 @@ def downloadAttach():
 #    Inbox = olNs.GetDefaultFolder(6)
     Inbox = Outlook.Folders(" ").Folders.Item("Inbox")
     today = datetime.now().strftime("%d %B %Y")
-    file_name = " {}".format(today)
+    _today = str(datetime.now().day) + " " + datetime.now().strftime("%B %Y")
+    file_name = "% {}".format(today)
+    _file_name = "% {}".format(_today)
     Filter = ("@SQL=" + chr(34) + "urn:schemas:httpmail:subject" +
-              chr(34) + " Like '" + file_name +"' AND " +
+              chr(34) + " Like '" + file_name +"' OR '" + _file_name + "' AND " +
               chr(34) + "urn:schemas:httpmail:hasattachment" +
               chr(34) + "=1")
 
@@ -28,8 +30,8 @@ def downloadAttach():
     for Item in Items:
         for attachment in Item.Attachments:
             print(attachment.FileName)
-            attachment.SaveAsFile(os.getcwd() + "/" + attachment.FileName)
-            return attachment.FileName
+            attachment.SaveAsFile(os.getcwd() + "/Attachment/" + attachment.FileName)
+            return "Attachment" + "/" attachment.FileName
 
 def sendEmail(filename):
     outlook = win32com.client.Dispatch('outlook.application')
@@ -49,6 +51,10 @@ def sendEmail(filename):
 
 if __name__ == "__main__":
     print("Downloading attachment")
+    try:
+        os.mkdir("Attachment")
+    except:
+        pass
     
     #today = datetime.now().strftime("%Y%m%d")
     file_name = downloadAttach()

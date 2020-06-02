@@ -10,14 +10,15 @@ This tool download the attachment from email, extract the IP address in the atta
 
 # Configuration
 Fill in the following in Gear-1 :
-<pre>
+````
 1. Inbox = Outlook.Folders(" ").Folders.Item("Inbox")     *Input your mailbox name*
 2. file_name = " {}".format(today)                        *Input the subject name of the email*
-3. mail.To = ' '                                          *Input email address of the recipient*
-4. mail.Subject = ' '                                     *Input email subject name*
-5. mail.Body = ' '                                        *Input body of the email*
-6. mail.SentOnBehalfOfName = ' '                          *Input email address of the sender*
-</pre>
+3. _file_name = "% {}".format(_today)
+4. mail.To = ' '                                          *Input email address of the recipient*
+5. mail.Subject = ' '                                     *Input email subject name*
+6. mail.Body = ' '                                        *Input body of the email*
+7. mail.SentOnBehalfOfName = ' '                          *Input email address of the sender*
+````
 # Insruction to run this tool
 Place tool.py together in the same folder as Hakichecker
 

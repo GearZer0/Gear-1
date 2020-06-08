@@ -12,15 +12,7 @@ from email import encoders
 from time import sleep
 import win32com.client
 
-def downloadAttach():
-    Outlook = win32com.client.Dispatch("Outlook.Application").GetNamespace("MAPI")
-#    olNs = Outlook.GetNamespace("MAPI")
-#    Inbox = olNs.GetDefaultFolder(6)
-    Inbox = Outlook.Folders(" ").Folders.Item("Inbox")
-    today = datetime.now().strftime("%d %B %Y")
-    _today = str(datetime.now().day) + " " + datetime.now().strftime("%B %Y")
-    file_name = "% {}".format(today)
-    _file_name = "% {}".format(_today)
+def filteredResult(file_name, Inbox):
     Filter = ("@SQL=" + chr(34) + "urn:schemas:httpmail:subject" +
               chr(34) + " Like '" + file_name + "' AND " +
               chr(34) + "urn:schemas:httpmail:hasattachment" +
@@ -32,18 +24,26 @@ def downloadAttach():
             print(attachment.FileName)
             attachment.SaveAsFile(os.getcwd() + "/Attachment/" + attachment.FileName)
             return "Attachment" + "/" + attachment.FileName
-    # repeat again for other date format ...
-    Filter = ("@SQL=" + chr(34) + "urn:schemas:httpmail:subject" +
-              chr(34) + " Like '" + _file_name + "' AND " +
-              chr(34) + "urn:schemas:httpmail:hasattachment" +
-              chr(34) + "=1")
+    return None
 
-    Items = Inbox.Items.Restrict(Filter)
-    for Item in Items:
-        for attachment in Item.Attachments:
-            print(attachment.FileName)
-            attachment.SaveAsFile(os.getcwd() + "/Attachment/" + attachment.FileName)
-            return "Attachment" + "/" + attachment.FileName
+def downloadAttach():
+    Outlook = win32com.client.Dispatch("Outlook.Application").GetNamespace("MAPI")
+#    olNs = Outlook.GetNamespace("MAPI")
+#    Inbox = olNs.GetDefaultFolder(6)
+    Inbox = Outlook.Folders(" ").Folders.Item("Inbox")
+    today = datetime.now().strftime("%d %B %Y")
+    _today = str(datetime.now().day) + " " + datetime.now().strftime("%B %Y")
+    today1 = datetime.now().strftime("%d %b %Y")
+    _today1 = str(datetime.now().day) + " " + datetime.now().strftime("%b %Y")
+    file_name = ["%Daily Summary Report {}%".format(today),
+                 "%Daily Summary Report {}%".format(today1),
+                 "%Daily Summary Report {}%".format(_today),
+                 "%Daily Summary Report {}%".format(_today1)
+                 ]
+    for a_file_name in file_name:
+        matches = filteredResult(a_file_name, Inbox)
+        if matches is not None:
+            return matches
 
 def sendEmail(filename):
     outlook = win32com.client.Dispatch('outlook.application')

@@ -93,4 +93,5 @@ if __name__ == "__main__":
         if len(files) > 0:
             #files = sorted(filter(os.path.isfile, os.listdir('Results')), key=os.path.getmtime)
             sendEmail(os.getcwd() + "/Results/" + files[0])
+            os.remove(os.getcwd() +  "/Results/" + file[0])
             break
